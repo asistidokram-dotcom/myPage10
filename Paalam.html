@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="tl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ang Huling Paalam</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #000;
+      color: #f2f2f2;
+      font-family: 'Courier New', Courier, monospace;
+      overflow: hidden;
+      position: relative;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 2.5em;
+      margin: 20px 10px 10px;
+      color: #ff9999;
+      text-shadow: 1px 1px 3px #000;
+      z-index: 2;
+      position: relative;
+    }
+
+    .message-box {
+      width: 90%;
+      margin: 0 auto;
+      font-size: 1em;
+      white-space: pre-wrap;
+      border-left: 3px solid #ff6666;
+      padding-left: 15px;
+      line-height: 1.6;
+      max-height: 70vh;
+      overflow-y: auto;
+      text-align: left;
+      z-index: 2;
+      position: relative;
+      background-color: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(4px);
+      padding: 20px;
+      border-radius: 10px;
+      color: #f8f8f8;
+      scroll-behavior: smooth;
+    }
+
+    .video-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .video-background video {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      min-width: 100%;
+      min-height: 100%;
+      transform: translate(-50%, -50%);
+      object-fit: cover;
+      opacity: 0.4;
+      transition: opacity 2s ease-in-out;
+    }
+
+    .play-button {
+      background-color: #ff6666;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      font-size: 1.2em;
+      cursor: pointer;
+      border-radius: 5px;
+      margin: 20px auto;
+      box-shadow: 0 0 10px rgba(255, 102, 102, 0.5);
+      display: block;
+      z-index: 2;
+      position: relative;
+    }
+
+    audio {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Ang Huling Paalam</h1>
+  <button class="play-button" onclick="startTribute()">Play</button>
+  <div class="message-box" id="message"></div>
+
+  <div class="video-background">
+    <video id="vid1" src="my1.mp4" muted loop playsinline></video>
+    <video id="vid2" src="my2.mp4" muted loop playsinline></video>
+    <video id="vid3" src="my3.mp4" muted loop playsinline></video>
+    <video id="vid4" src="my4.mp4" muted loop playsinline></video>
+    <video id="vid5" src="my5.mp4" muted loop playsinline></video>
+  </div>
+
+  <audio id="bgmusic" src="moira1.mp3" loop></audio>
+
+  <script>
+    const messageText = `Hindi ko alam kung babasahin mo pa ‘to, pero gusto ko lang ilabas lahat ng nasa loob ko. Para sa’yo. Para sa atin. Pitong taon tayong magkasama. Ang dami nating napagdaanan—masaya, mahirap, nakakakilig, nakakaiyak. Lahat ‘yon, totoo. Lahat ‘yon, mahalaga sa akin. At kahit may mga pagkukulang ako, lalo na nitong huli, gusto ko lang ulit humingi ng sorry. Hindi ko intensyong saktan ka. Pero alam kong nasaktan ka. At kung ‘yon ang dahilan kung bakit ka lumayo, naiintindihan ko. Tanggap ko. Salamat sa lahat. Sa bawat alaala, sa bawat simpleng araw na naging espesyal dahil kasama kita. Sa mga pangarap na sabay nating binuo. Hindi ko ‘yon makakalimutan. Kahit kailan. Alam mo ba, kaya ako nagtitipid nitong mga nakaraang buwan? Hindi dahil sa wala lang. May plano ako. Matagal ko nang iniisip kung pwede pa ba ulit tayo. Gusto ko sanang bilhan ka ng paborito mong sapatos—‘yung matagal mo nang gusto. Tapos bracelet na maganda, ‘yung tipong kapag suot mo, alam mong mahal ka. At alam mo ba, nabili ko na ‘yung bracelet. Hawak ko na. Nakabalot na. Bago sana magtapos ang September, balak ko na sanang gawin ‘yung surprise. Ready na sana ang lahat. Nakaayos na sa isip ko kung paano ko sasabihin, kung paano ko ipaparamdam sa’yo na pinili pa rin kita. Pero ganon ang nalaman ko. May iba ka na palang nakakausap. Hindi ko inaasahan. Hindi ko rin alam kung paano ko tatanggapin. Sobrang nanghihinayang ako. Hindi lang sa plano, kundi sa pagkakataon. Sa lahat ng puwedeng mangyari, sa lahat ng puwedeng maibalik. Pero siguro, ‘yon ang kailangan mo. At kung masaya ka sa desisyon mo, sa bago mong mundo, sana totoo ‘yang saya. Sana hindi ka na ulit masaktan. Wala akong galit. Walang poot. Pero ang totoo, ang sakit. Ang laki ng tampo ko. Sana sinabi mo agad. Sana binigyan mo ako ng pagkakataon. Pero kahit ganon, mahal na mahal pa rin kita. Higit sa lahat. Higit sa sarili ko. At kahit hindi na ako ang kasama mo, nandito lang ako. Hinding-hindi ako mawawala. Pwede kang lumapit anytime. Kahit simpleng “kamusta,” kahit wala nang label, kahit wala ng tayo, basta ikaw. Sa huli, salamat. Salamat sa lahat. At higit sa lahat… Salamat sa pagdurog sa puso kong kailan ma’y hindi ka sinukuan.`;
+
+    let i = 0;
+    let typingStarted = false;
+    let currentVideo = 1;
+
+    function typeWriter() {
+      if (i < messageText.length) {
+        const messageBox = document.getElementById('message');
+        messageBox.textContent += messageText.charAt(i);
+        i++;
+
+        // Auto-scroll to bottom
+        messageBox.scrollTop = messageBox.scrollHeight;
+
+        setTimeout(typeWriter, 70); // slower typing speed
+      }
+    }
+
+    function fadeVideos() {
+      const totalVideos = 5;
+      for (let v = 1; v <= totalVideos; v++) {
+        const video = document.getElementById(`vid${v}`);
+        video.style.opacity = (v === currentVideo) ? '0.4' : '0';
+      }
+      currentVideo = (currentVideo % totalVideos) + 1;
+      setTimeout(fadeVideos, 8000);
+    }
+
+    function startTribute() {
+      if (!typingStarted) {
+        typingStarted = true;
+        typeWriter();
+
+        const music = document.getElementById('bgmusic');
+        music.volume = 0.6;
+        music.play().catch(() => {
+          alert("Please allow audio playback in your browser settings.");
+        });
+
+        for (let v = 1; v <= 5; v++) {
+          document.getElementById(`vid${v}`).play();
+        }
+
+        fadeVideos();
+        document.querySelector('.play-button').style.display = 'none';
+      }
+    }
+  </script>
+
+</body>
+</html>
